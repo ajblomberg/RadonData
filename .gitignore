@@ -1,9 +1,13 @@
 *.Rhistory 
+
 *.html
+
 *.pdf
+
 *.Rproj.user
+
 *.docx
-*.xlsx
-*.xls
+
 .Rproj.user
+
 *cache
