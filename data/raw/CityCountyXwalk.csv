@@ -1,0 +1,273 @@
+city,state,county
+Alamo,NV,Lincoln
+Austin,NV,Lander
+Battle Mountain,NV,Lander
+Beatty,NV,Nye
+Boulder City,NV,Clark
+Caliente,NV,Lincoln
+Carlin,NV,Elko
+Carson City,NV,Carson
+Dayton,NV,Lyon
+Elko,NV,Elko
+Ely,NV,White Pine
+Eureka,NV,Eureka
+Fallon,NV,Churchill
+Fernley,NV,Lyon
+Gabbs,NV,Nye
+Gardnerville,NV,Douglas
+Goldfield,NV,Esmeralda
+Hawthorne,NV,Mineral
+Henderson,NV,Clark
+Las Vegas,NV,Clark
+Lovelock,NV,Pershing
+Lund,NV,White Pine
+McDermitt,NV,Humboldt
+McGill,NV,White Pine
+Minden,NV,Douglas
+North Las Vegas,NV,Clark
+Orovada,NV,Humboldt
+Pahrump,NV,Nye
+Panaca,NV,Lincoln
+Paradise Valley,NV,Clark
+Pioche,NV,Lincoln
+Reno,NV,Washoe
+Round Mountain,NV,Nye
+Ruby Valley,NV,Elko
+Ruth,NV,White Pine
+Sparks,NV,Washoe
+Tonopah,NV,Nye
+Wells,NV,Elko
+Wendover,NV,Elko
+Winnemucca,NV,Humboldt
+Yerington,NV,Lyon
+Zephyr Cove,NV,Douglas
+Acworth,NH,Sullivan
+Albany,NH,Carroll
+Alexandria,NH,Grafton
+Allenstown,NH,Merrimack
+Alstead,NH,Cheshire
+Alton,NH,Belknap
+Amherst,NH,Hillsborough
+Andover,NH,Merrimack
+Antrim,NH,Hillsborough
+Ashland,NH,Grafton
+Atkinson,NH,Rockingham
+Auburn,NH,Rockingham
+Barnstead,NH,Belknap
+Barrington,NH,Strafford
+Bartlett,NH,Carroll
+Bath,NH,Grafton
+Bedford,NH,Hillsborough
+Bennington,NH,Hillsborough
+Benton,NH,Grafton
+Berlin,NH,Coos
+Bethlehem,NH,Grafton
+Boscawen,NH,Merrimack
+Bow,NH,Merrimack
+Bradford,NH,Merrimack
+Brentwood,NH,Rockingham
+Bridgewater,NH,Grafton
+Bristol,NH,Grafton
+Brookfield,NH,Carroll
+Brookline,NH,Hillsborough
+Campton,NH,Grafton
+Canaan,NH,Grafton
+Candia,NH,Rockingham
+Canterbury,NH,Merrimack
+Carroll,NH,Coos
+Center Harbor,NH,Belknap
+Charlestown,NH,Sullivan
+Chatham,NH,Carroll
+Chester,NH,Rockingham
+Chesterfield,NH,Cheshire
+Chichester,NH,Merrimack
+Claremont,NH,Sullivan
+Clarksville,NH,Coos
+Colebrook,NH,Coos
+Columbia,NH,Coos
+Concord,NH,Merrimack
+Hampton,NH,Rockingham
+Hampton Falls,NH,Rockingham
+Hancock,NH,Hillsborough
+Hanover,NH,Grafton
+Harrisville,NH,Cheshire
+Hart's Location,NH,Carroll
+Haverhill,NH,Grafton
+Hebron,NH,Grafton
+Henniker,NH,Merrimack
+Hill,NH,Merrimack
+Hillsboro,NH,Hillsborough
+Hinsdale,NH,Cheshire
+Holderness,NH,Grafton
+Hollis,NH,Hillsborough
+Hooksett,NH,Merrimack
+Hopkinton,NH,Merrimack
+Hudson,NH,Hillsborough
+Jackson,NH,Carroll
+Jaffrey,NH,Cheshire
+Jefferson,NH,Coos
+Keene,NH,Cheshire
+Kensington,NH,Rockingham
+Kingston,NH,Rockingham
+Laconia,NH,Belknap
+Lancaster,NH,Coos
+Landaff,NH,Grafton
+Lebanon,NH,Grafton
+Lee,NH,Strafford
+Lempster,NH,Sullivan
+Lincoln,NH,Grafton
+Lisbon,NH,Grafton
+Litchfield,NH,Hillsborough
+Littleton,NH,Grafton
+Londonderry,NH,Rockingham
+Loudon,NH,Merrimack
+Lyman,NH,Grafton
+Lyme,NH,Grafton
+Lyndeborough,NH,Hillsborough
+Madbury,NH,Strafford
+Madison,NH,Carroll
+Manchester,NH,Hillsborough
+Marlborough,NH,Cheshire
+Marlow,NH,Cheshire
+Mason,NH,Hillsborough
+Meredith,NH,Belknap
+Roxbury,NH,Cheshire
+Rumney,NH,Grafton
+Rye,NH,Rockingham
+Salem,NH,Rockingham
+Salisbury,NH,Merrimack
+Sanbornton,NH,Belknap
+Sandown,NH,Rockingham
+Sandwich,NH,Carroll
+Seabrook,NH,Rockingham
+Sharon,NH,Hillsborough
+Shelburne,NH,Coos
+Somersworth,NH,Strafford
+South Hampton,NH,Rockingham
+Springfield,NH,Sullivan
+Stark,NH,Coos
+Stewartstown,NH,Coos
+Stoddard,NH,Cheshire
+Stratford,NH,Coos
+Stratford,NH,Coos
+Stratham,NH,Rockingham
+Sugar Hill,NH,Grafton
+Sullivan,NH,Cheshire
+Sunapee,NH,Sullivan
+Surry,NH,Cheshire
+Sutton,NH,Merrimack
+Swanzey,NH,Cheshire
+Tamworth,NH,Carroll
+Temple,NH,Hillsborough
+Thornton,NH,Grafton
+Tilton,NH,Belknap
+Troy,NH,Cheshire
+Tuftonboro,NH,Carroll
+Unity,NH,Sullivan
+Wakefield,NH,Carroll
+Walpole,NH,Cheshire
+Warner,NH,Merrimack
+VVdi i tfll,NH,NA
+Washington,NH,Sullivan
+Weare,NH,Hillsborough
+Webster,NH,Merrimack
+Wentworth,NH,Grafton
+Westmoreland,NH,Cheshire
+Whitefield,NH,Coos
+Wilmot,NH,Merrimack
+Wilton,NH,Hillsborough
+Conway,NH,Carroll
+Cornish,NH,Sullivan
+Croydon,NH,Sullivan
+Dalton,NH,Coos
+Danbury,NH,Merrimack
+Danville,NH,Rockingham
+Deerfield,NH,Rockingham
+Deering,NH,Hillsborough
+Derry,NH,Rockingham
+Dixville,NH,Coos
+Dorchester,NH,Grafton
+Dover,NH,Strafford
+Dublin,NH,Cheshire
+Dummer,NH,Coos
+Dunbarton,NH,Merrimack
+Durham,NH,Strafford
+East Kingston,NH,Rockingham
+Easton,NH,Grafton
+Eaton,NH,Carroll
+Effingham,NH,Carroll
+Ellsworth,NH,Grafton
+Enfield,NH,Grafton
+Epping,NH,Rockingham
+Epsom,NH,Merrimack
+Errol,NH,Coos
+Exeter,NH,Rockingham
+HilllFamiington,NH,NA
+Fitzwilliam,NH,Cheshire
+Francestown,NH,Hillsborough
+Franconia,NH,Grafton
+Franklin,NH,Merrimack
+Freedom,NH,Carroll
+Fremont,NH,Rockingham
+Gilford,NH,Belknap
+Gilmanton,NH,Belknap
+Gilsum,NH,Cheshire
+Goffstown,NH,Hillsborough
+Gorham,NH,Coos
+Goshen,NH,Sullivan
+Grantham,NH,Sullivan
+Greenfield,NH,Hillsborough
+Greenland,NH,Rockingham
+Greenville,NH,Hillsborough
+Groton,NH,Grafton
+Hampstead,NH,Rockingham
+Merrimack,NH,Hillsborough
+Middleton,NH,Strafford
+Milan,NH,Coos
+Milford,NH,Hillsborough
+Milton,NH,Strafford
+Monroe,NH,Grafton
+Mont Vernon,NH,Hillsborough
+Moultonboro,NH,Carroll
+Nashua,NH,Hillsborough
+Nelson,NH,Cheshire
+New Boston,NH,Hillsborough
+New Castle,NH,Rockingham
+New Durham,NH,Strafford
+New Hampton,NH,Belknap
+New Ipswich,NH,Hillsborough
+New London,NH,Merrimack
+Newbury,NH,Merrimack
+Newington,NH,Rockingham
+Newmarket,NH,Rockingham
+Newport,NH,Sullivan
+Newton,NH,Rockingham
+North Hampton,NH,Rockingham
+Northfield,NH,Merrimack
+Northumberland,NH,Coos
+Northwood,NH,Rockingham
+Nottingham,NH,Rockingham
+Orange,NH,Grafton
+Orford,NH,Grafton
+Ossipee,NH,Carroll
+Pelham,NH,Hillsborough
+Pembroke,NH,Merrimack
+Peterborough,NH,Hillsborough
+Piermont,NH,Grafton
+Pittsburg,NH,Coos
+Pittsfield,NH,Merrimack
+Plainsfield,NH,Sullivan
+Plainstow,NH,Rockingham
+Plymouth,NH,Grafton
+Portsmouth,NH,Rockingham
+Randolph,NH,Coos
+Raymond,NH,Rockingham
+Richmond,NH,Cheshire
+Rindge,NH,Cheshire
+Rochester,NH,Strafford
+Rollinsford,NH,Strafford
+Winchester,NH,Cheshire
+Windham,NH,Rockingham
+Windsor,NH,Hillsborough
+Wolfeboro,NH,Carroll
+Woodstock,NH,Grafton
