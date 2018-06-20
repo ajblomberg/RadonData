@@ -11,21 +11,13 @@ output:
 
 This R notebook loads and processes the Cohen and Berkeley data. Our goal is to save clean versions of the file with FIPS codes and county names. 
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(warning = FALSE)
 
-library(here)
-library(readxl)
-library(stringr)
-library(dplyr)
-library(readr)
-
-```
 
 # Load Data
 Load Cohen and Berkeley data, as well as FIPS codes for cross-walking. 
 
-```{r load radon data, warning = FALSE, error=FALSE}
+
+```r
 cohen <-  read_excel(here("data", "raw", "CohenRadon.xls"), col_types = "numeric") %>% 
         rename(radon = RADON, fips = COUNTY)
 
@@ -33,7 +25,15 @@ berkeley <-  read_excel(here("data", "raw", "BerkeleyRadon.xlsx"), col_types = "
         
 # Notice that there is a duplicate in the berkeley data
 berkeley %>% group_by(fips) %>% filter(n() > 1)
+```
 
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":["fips"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["GMest"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["GMer"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["AMest"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["AMer"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["f4est"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["f10est"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["f4_10"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["f10_5"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"9001","2":"0.58","3":"1.2","4":"0.83","5":"0.17","6":"0.01","7":"0","8":"0","9":"0"},{"1":"9001","2":"0.68","3":"1.3","4":"0.94","5":"0.26","6":"0.01","7":"0","8":"0","9":"0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+
+```r
 berkeley <- berkeley %>% 
         filter(!(fips == 9001 & GMest == 0.58))
 ```
@@ -44,7 +44,8 @@ Create two FIPS crosswalks.
 State crosswalk: merge in state abbreviations.
 County crosswalk: Just state and county fips. 
 
-```{r load FIPS data, warning = FALSE}
+
+```r
 fips <- read_excel(here("data", "raw", "all-geocodes-v2016.xlsx"), skip = 4) 
 
 # State fips
@@ -74,16 +75,17 @@ Checking fips lengths in Cohen and Berkeley data to confirm that they are all 4-
 
 Add padding so that FIPS codes always have a length of five (first two numbers are state FIPS, last three are county FIPS) 
 
-```{r add padding to FIPS }
+
+```r
 cohen2 <- cohen %>% 
         mutate(fips = str_pad(fips, 5, pad = 0, side = "left"))
 berkeley2 <- berkeley %>% 
         mutate(fips = str_pad(fips, 5, pad = 0, side = "left"))
-
 ```
 
 Add in state names.
-```{r add state data}
+
+```r
 cohen3 <- cohen2 %>% 
         mutate(state.fips = str_sub(fips, 1, 2)) %>% 
         left_join(state.fips, by = "state.fips") %>% 
@@ -96,16 +98,15 @@ berkeley3 <- berkeley2 %>%
 ```
 
 Check to see if there are any entries that do not match to the FIPS table. 
-```{r see what matches}
 
+```r
 cohen_nomatch <- anti_join(cohen3, county.fips, by = "fips")
 berkeley_nomatch <- anti_join(berkeley3, county.fips, by = "fips")
-
 ```
 
 Six of the Berkeley entries do not match to the 2016 FIPS code list. Presumably this is because the FIPS codes have changed. 
-```{r update berkeley FIPS codes}
 
+```r
 berkeley3 <- berkeley3 %>% 
         mutate(fips = ifelse(fips == "12025", "12086", fips)) %>% 
         mutate(fips = ifelse(fips == "30113", "56039", fips)) %>%
@@ -115,12 +116,12 @@ berkeley3 <- berkeley3 %>%
         mutate(fips = ifelse(fips == "51780", "51083", fips)) 
 
 berkeley_nomatch <- anti_join(berkeley3, county.fips, by = "fips")
-
 ```
 
 # Merge FIPS to Cohen and Berkeley 
 Merge in county fips to Cohen and Berkeley
-```{r merge county fips}
+
+```r
 cohen4 <- left_join(cohen3, county.fips, by = "fips") %>% 
         select(state, area.name, fips, radon) %>% 
         mutate(area.name = str_to_upper(area.name))
@@ -128,12 +129,12 @@ cohen4 <- left_join(cohen3, county.fips, by = "fips") %>%
 berkeley4 <- left_join(berkeley3, county.fips, by = "fips") %>% 
         select(state, area.name, fips, GMest:f10_5) %>% 
         mutate(area.name = str_to_upper(area.name))
-
 ```
 
 # Save Finals
 Write .csv files 
-```{r save files}
+
+```r
 write_csv(cohen4, here("data", "CohenClean.csv"))
 write_csv(berkeley4, here("data", "BerkeleyClean.csv"))
 ```

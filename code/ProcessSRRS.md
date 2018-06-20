@@ -10,14 +10,7 @@ output:
 
 We are processing SRRS data into a clean form, and linking to FIPS codes and counties. 
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(warning = FALSE)
 
-library(here)
-library(readxl)
-library(stringr)
-library(tidyverse)
-```
 
 # Load SRRS data from multi-tabbed excel format 
 
@@ -25,8 +18,8 @@ The data is in an excel table formatted into different tabs, each of which list 
 
 We start by loading the sheet names and connecting to state abbreviations. 
 
-```{r start loading in file}
 
+```r
 radon.file <- here("data", "raw", "EPA-SRRS 1987-1992 PJalbert 30-JAN-2014.xlsx")
 
 state.xwalk <- tibble(state = datasets::state.abb, state.name = datasets::state.name) %>% 
@@ -48,7 +41,8 @@ dat1 <- tibble(tab.name = tab.name) %>%
 
 Next, we load in the header for each table and see what columns are most common. This will be used to decide how to process all the data. 
 
-```{r load column names, cache=TRUE}
+
+```r
 excel_colnames <- function(tab){
         data <- read_excel(radon.file, sheet = tab, skip = 3)
         cols <- colnames(data)
@@ -60,7 +54,25 @@ dat2 <- dat1 %>%
 
 colnames <- dat2 %>% group_by(colnames) %>% count() %>% arrange(desc(n))
 colnames
+```
 
+```
+## # A tibble: 12 x 2
+## # Groups:   colnames [12]
+##    colnames                                                              n
+##    <chr>                                                             <int>
+##  1 "COUNTY NO. OF MEAS. MEAN GEOM.\r\nMEAN MEDIAN STD.\r\nDEV. MAXI~    39
+##  2 BOROUGH NO. OF MEAS MEAN GEOM. MEAN MEDIAN STD.DEV. MAX %>4pCi/L~     1
+##  3 CITY NO. OF MEAS. HIGH pCi/L LOW pCi/L AVERAGE pCi/L %>4 pCi/L        1
+##  4 COUNTY NO. OF MEAS. ARITHMETIC MEAN %>4 pCi/L                         1
+##  5 "COUNTY NO. OF MEAS. AVERAGE MEDIAN GEOM.\r\nMEAN MAXIMUM %>4 pC~     1
+##  6 COUNTY NO. OF MEAS. AVERAGE MINIMUM MAXIMUM                           1
+##  7 "COUNTY NO. OF MEAS. GEOM.\r\nMEAN MEDIAN STD.\r\nDEV. MAXIMUM %~     1
+##  8 County Number of Homes Average pCi/L Standard Deviation pCi/L Ma~     1
+##  9 Geologic Terrane # of Homes Geometric Mean Arithmetic Mean X__1 ~     1
+## 10 "PARISH NO. OF MEAS. MEAN GEOM.\r\nMEAN MEDIAN STD.\r\nDEV. MAXI~     1
+## 11 Town No. of Meas. Mean                                                1
+## 12 ZIP CODE CITY COUNTY NO. OF MEAS AVERAGE MEDIAN GM STD MAX %>4 p~     1
 ```
 
 The most common set of headers is "COUNTY NO. OF MEAS. MEAN GEOM.\r\nMEAN MEDIAN STD.\r\nDEV. MAXIMUM %>4 pCi/L %>20 pCi/L" 
@@ -69,8 +81,8 @@ The most common set of headers is "COUNTY NO. OF MEAS. MEAN GEOM.\r\nMEAN MEDIAN
 
 Next, we load in data for this subset that matches the standard format. 
 
-```{r load standard data tables, cache=TRUE}
 
+```r
 excel_standard_dat <- function(tab){
         data <- read_excel(radon.file, sheet = tab, skip = 3,
                            col_types = c("text", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric"))
@@ -87,8 +99,6 @@ dat.stand <- dat2 %>%
 dat.stand2 <- dat.stand %>% 
         unnest() %>% 
         select(-tab.name, -state.name, -colnames)
-
-        
 ```
 
 ### Load states with non-standard headers individually 
@@ -98,8 +108,8 @@ county (chr), n, mean, geom.mean, median, std.dev, max
 
 We load tables individually and then bind together. 
 
-```{r load non-standard data tables}
 
+```r
 dat.odd <- dat2 %>% 
         filter(colnames != "COUNTY NO. OF MEAS. MEAN GEOM.\r\nMEAN MEDIAN STD.\r\nDEV. MAXIMUM %>4 pCi/L %>20 pCi/L")
 
@@ -164,13 +174,12 @@ TX <- dat.odd %>%  filter(state == "TX") %>%
         select(state, county = `COUNTY`, n = "NO. OF MEAS.", mean = "AVERAGE", geom.mean = "GEOM.\r\nMEAN", 
                median = MEDIAN, max = "MAXIMUM") %>% 
         filter(!is.na(county))
-
 ```
 
 Add in NH and NV seperately, because it is by town (not county). We first match each town to corresponding county. We then aggregate to county, calculating mean as a weighted mean by the number of measures. 
 
-```{r add NH, NV and DE}
 
+```r
 NH <- dat.odd %>% filter(state == "NH") %>% 
         mutate(data = map(tab.name, ~ read_excel(radon.file, sheet = .x, skip = 3, 
                       col_types = c("text", "numeric", "numeric")))) %>% 
@@ -189,7 +198,18 @@ NV <-  dat.odd %>% filter(state == "NV") %>%
         filter(!is.na(city))
 
 CityCountyXwalk <- read_csv(here("data", "raw", "CityCountyXwalk.csv"), na = "NA")
+```
 
+```
+## Parsed with column specification:
+## cols(
+##   city = col_character(),
+##   state = col_character(),
+##   county = col_character()
+## )
+```
+
+```r
 city.dat <- bind_rows(NH, NV) %>% 
         left_join(CityCountyXwalk, by = c("city", "state"))
 
@@ -214,19 +234,17 @@ city.sum <- city.dat2 %>%
         summarise(mean = (sum(mean*n, na.rm = T)/sum(n, na.rm = T)),
                   max = max(max, na.rm = T)) %>% 
         mutate(max = ifelse(max == -Inf, NA, max))
-
 ```
 
 Now, we bind together all the standard data, non-standard states and county values calculated for NV and NH. 
 
-```{r bind data}
 
+```r
 dat3 <- bind_rows(dat.stand2, AK, CT, FL, LA, NJ, NC, RI, TX, city.sum) %>% 
         mutate(county = str_to_upper(county)) %>% 
         filter(!(county %in% c("BARNSTABLE +DUKES", "FRANKLIN +HAMPSHIRE", "STATEWIDE", 
                                "CLIFTON FORGE", "SOUTH BOSTON"))) 
 #DROPPING COUNTIES THAT DON'T EXIST ANYMORE
-
 ```
 
 # Match to FIPS 
@@ -237,7 +255,8 @@ Create two FIPS crosswalks.
 State crosswalk: merge in state abbreviations. (I don't think I need this). 
 County crosswalk: Just state and county fips. 
 
-```{r load FIPS data, warning = FALSE}
+
+```r
 fips <- read_excel(here("data", "raw", "all-geocodes-v2016.xlsx"), skip = 4) 
 
 # State fips
@@ -266,18 +285,17 @@ county.fips <- fips %>% filter(`Summary Level` == "050") %>%
 
 We first have to drop the last word ("county", I think) from the county name in the FIPS crosswalk. 
 
-```{r drop extra words}
 
+```r
  last.word <- word(county.fips$area.name, 2, -1) 
  counts <- as.tibble(table(last.word)) %>% arrange(desc(n))
 
 # List of endings: 
 # county.names <- c("Census Area", "City and Borough", "County", "Municipio", "Parish", "Municipality")
-
-
 ```
 
-```{r drop extra words 2}
+
+```r
 county.fips <- county.fips %>% 
         mutate(area.name.short = str_remove(area.name, " CENSUS AREA"),
                area.name.short = str_remove(area.name.short, " CITY AND BOROUGH"),
@@ -292,7 +310,6 @@ county.fips <- county.fips %>%
                area.name.short = ifelse(fips == 51760, "RICHMOND CITY", area.name.short),
                area.name.short = ifelse(fips == 51770, "ROANOKE CITY", area.name.short)) %>% 
         select(state.fips, state, fips, area.name, area.name.short)
-
 ```
 
 
@@ -300,8 +317,8 @@ Now we do a rough match to see how many match. We need to match within state, as
 
 80 of the 3092 SRRS counties (3%) do not match the fips crosswalk.
 
-```{r initial match}
 
+```r
 dat3 <- dat3 %>% 
         mutate(county.match = str_remove(county, " "),
                county.match = str_remove(county.match, "\\*"))
@@ -310,13 +327,12 @@ county.fips <- county.fips %>%
         mutate(county.match = str_remove(area.name.short, " "))
 
 nomatch <- anti_join(dat3, county.fips, by = c("state", "county.match"))
-
 ```
 
 We manually adjust county names for non-matches. 
 
-```{r update county names}
 
+```r
 dat4 <- dat3 %>% 
         mutate(county.match = ifelse(state == "AR" & county.match == "OUACFFLTA", "OUACHITA", county.match),
                county.match = ifelse(state == "FL" & county.match == "DADE", "MIAMI-DADE", county.match),
@@ -388,28 +404,25 @@ dat4 <- dat3 %>%
                county.match = ifelse(state == "WV" & county.match == "RITCFFLE", "RITCHIE", county.match),
                county.match = ifelse(state == "WY" & county.match == "LARAMFFI", "LARAMIE", county.match),
                county.match = ifelse(state == "WY" & county.match == "WASHAKFFI", "WASHAKIE", county.match))
-               
 ```
 
 After updating all matches, we see that the only counties that still don't match are in HI and AK.  
 
-```{r match with new county names}
 
+```r
 nomatch2 <- anti_join(dat4, county.fips, by = c("state", "county.match"))
-
 ```
 
 # Write final file
 
 Our goal is to have a final file that includes state, county name, FIPS and final radon values. 
 
-```{r write final file}
 
+```r
 dat.final <- dat4 %>% 
         left_join(county.fips, by = c("state", "county.match")) %>% 
         select(state, area.name, fips, n:max)
 
 write_csv(dat.final, here("data", "SRRSClean.csv"))
-
 ```
 
